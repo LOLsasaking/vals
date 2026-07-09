@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="body2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1647AB"/>
+      <stop offset="0.5" stop-color="#1E5BD6"/>
+      <stop offset="1" stop-color="#5B8DEF"/>
+    </linearGradient>
+    <radialGradient id="floor2" cx="0.5" cy="1" r="0.6">
+      <stop offset="0" stop-color="#1E5BD6" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#1E5BD6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="400" cy="460" rx="280" ry="34" fill="url(#floor2)"/>
+  <!-- compact rugged SUV silhouette -->
+  <g fill="url(#body2)" stroke="#0F2E73" stroke-width="3" stroke-linejoin="round">
+    <path d="M165 360 L165 305 Q165 290 182 287 L258 276 L300 225 Q307 214 322 214 L505 214 Q522 214 530 226 L575 285 L628 302 Q648 306 648 324 L648 360 Z"/>
+  </g>
+  <rect x="320" y="230" width="86" height="52" rx="5" fill="#EAF1FA" opacity="0.85"/>
+  <rect x="416" y="230" width="96" height="52" rx="5" fill="#EAF1FA" opacity="0.85"/>
+  <rect x="250" y="200" width="280" height="10" rx="5" fill="#0F2E73"/>
+  <circle cx="262" cy="372" r="50" fill="#0B1B3A"/>
+  <circle cx="262" cy="372" r="21" fill="#C7CCD1"/>
+  <circle cx="548" cy="372" r="50" fill="#0B1B3A"/>
+  <circle cx="548" cy="372" r="21" fill="#C7CCD1"/>
+  <text x="400" y="540" text-anchor="middle" font-family="Sora, Inter, sans-serif" font-size="24" font-weight="700" fill="#0B1B3A">2022 Ford Bronco Sport</text>
+</svg>

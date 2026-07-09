@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1647AB"/>
+      <stop offset="0.5" stop-color="#1E5BD6"/>
+      <stop offset="1" stop-color="#5B8DEF"/>
+    </linearGradient>
+    <radialGradient id="floor" cx="0.5" cy="1" r="0.6">
+      <stop offset="0" stop-color="#1E5BD6" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#1E5BD6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="400" cy="460" rx="290" ry="34" fill="url(#floor)"/>
+  <!-- boxy SUV silhouette -->
+  <g fill="url(#body)" stroke="#0F2E73" stroke-width="3" stroke-linejoin="round">
+    <path d="M150 360 L150 300 Q150 285 168 282 L250 270 L300 215 Q308 205 322 205 L520 205 Q536 205 544 218 L590 282 L640 300 Q660 304 660 322 L660 360 Z"/>
+  </g>
+  <rect x="320" y="222" width="90" height="58" rx="6" fill="#EAF1FA" opacity="0.85"/>
+  <rect x="420" y="222" width="100" height="58" rx="6" fill="#EAF1FA" opacity="0.85"/>
+  <circle cx="252" cy="372" r="48" fill="#0B1B3A"/>
+  <circle cx="252" cy="372" r="20" fill="#C7CCD1"/>
+  <circle cx="556" cy="372" r="48" fill="#0B1B3A"/>
+  <circle cx="556" cy="372" r="20" fill="#C7CCD1"/>
+  <text x="400" y="540" text-anchor="middle" font-family="Sora, Inter, sans-serif" font-size="26" font-weight="700" fill="#0B1B3A">2021 Toyota 4Runner</text>
+</svg>
