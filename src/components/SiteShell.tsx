@@ -6,6 +6,7 @@ import Hero from "./Hero";
 import FindCars from "./FindCars";
 import TrustStripe from "./TrustStripe";
 import Inventory from "./Inventory";
+import Process from "./Process";
 import ImportHub from "./ImportHub";
 import Reviews from "./Reviews";
 import Footer from "./Footer";
@@ -37,6 +38,7 @@ export default function SiteShell() {
         <FindCars onSearch={handleSearch} />
         <TrustStripe />
         <Inventory onOpen={setActive} makeFilter={makeFilter} onClearMake={() => setMakeFilter("")} />
+        <Process />
         <ImportHub />
         <Reviews />
         <Footer />

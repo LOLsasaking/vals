@@ -47,6 +47,7 @@ export default function Nav() {
           }`}
         >
           <a href="#inventory" className="transition-colors hover:text-royal">{t("nav.inventory")}</a>
+          <a href="#process" className="transition-colors hover:text-royal">{t("nav.process")}</a>
           <a href="#import" className="transition-colors hover:text-royal">{t("nav.import")}</a>
           <a href="#contact" className="transition-colors hover:text-royal">{t("nav.contact")}</a>
         </div>

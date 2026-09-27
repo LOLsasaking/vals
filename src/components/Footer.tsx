@@ -3,23 +3,33 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
+import { site } from "@/data/site";
 
 export default function Footer() {
   const { t } = useI18n();
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
-  const handleContact = (e: React.FormEvent<HTMLFormElement>) => {
+  // Sent privately through the site's API — no VALS email is exposed.
+  const handleContact = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const name = String(fd.get("name") ?? "");
-    const email = String(fd.get("email") ?? "");
-    const message = String(fd.get("message") ?? "");
-    const subject = `Website enquiry — ${name}`;
-    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    window.location.href = `mailto:vanessahg2312@gmail.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/import-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: "contact",
+          name: String(fd.get("name") ?? ""),
+          email: String(fd.get("email") ?? ""),
+          message: String(fd.get("message") ?? ""),
+        }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   const inputCls =
@@ -64,29 +74,16 @@ export default function Footer() {
             </h3>
 
             <div className="mt-5 space-y-3 text-sm">
-              <a href="https://wa.me/34606410974" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/70 transition-colors hover:text-white">
-                <svg className="h-4 w-4 text-royal-light" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 012.41 5.82c0 4.54-3.69 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z" />
-                </svg>
-                +34 606 41 09 74
-              </a>
-              <a href="mailto:vanessahg2312@gmail.com" className="flex items-center gap-3 text-white/70 transition-colors hover:text-white">
-                <svg className="h-4 w-4 text-royal-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="M22 7l-10 6L2 7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                vanessahg2312@gmail.com
-              </a>
               <p className="flex items-center gap-3 text-white/70">
                 <svg className="h-4 w-4 text-royal-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                Tenerife, Canary Islands
+                {site.address || t("footer.location")}
               </p>
             </div>
 
-            {sent ? (
+            {status === "sent" ? (
               <div className="mt-6 rounded-lg border border-white/20 bg-white/10 p-5 text-sm text-white">
                 {t("footer.form.sent")}
               </div>
@@ -95,8 +92,15 @@ export default function Footer() {
                 <input name="name" required placeholder={t("footer.form.name")} className={inputCls} />
                 <input name="email" type="email" required placeholder={t("footer.form.email")} className={inputCls} />
                 <textarea name="message" rows={3} required placeholder={t("footer.form.message")} className={`${inputCls} resize-none`} />
-                <button type="submit" className="btn-blue w-full bg-white text-royal-dark hover:bg-sky">
-                  {t("footer.form.send")}
+                {status === "error" && (
+                  <p role="alert" className="text-sm text-red-200">{t("footer.form.error")}</p>
+                )}
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="btn-blue w-full bg-white text-royal-dark hover:bg-sky disabled:opacity-60"
+                >
+                  {status === "sending" ? t("req.sending") : t("footer.form.send")}
                 </button>
               </form>
             )}
@@ -118,6 +122,7 @@ export default function Footer() {
         </p>
         <div className="flex gap-6 text-xs uppercase tracking-[0.16em] text-white/50">
           <a href="#inventory" className="transition-colors hover:text-white">{t("nav.inventory")}</a>
+          <a href="#process" className="transition-colors hover:text-white">{t("nav.process")}</a>
           <a href="#import" className="transition-colors hover:text-white">{t("nav.import")}</a>
           <a href="#contact" className="transition-colors hover:text-white">{t("nav.contact")}</a>
         </div>

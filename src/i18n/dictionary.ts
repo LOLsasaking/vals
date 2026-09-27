@@ -1,3 +1,5 @@
+import { processDict } from "./dictionary-process";
+
 export const LOCALES = ["en", "es", "fr", "de", "it"] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -179,6 +181,9 @@ export const dict: Dict = {
   // ---- Reviews ----
   "reviews.eyebrow": { en: "What clients say", es: "Lo que dicen los clientes", fr: "Ce que disent les clients", de: "Was Kunden sagen", it: "Cosa dicono i clienti" },
   "reviews.title": { en: "Trusted across Tenerife", es: "Con la confianza de toda Tenerife", fr: "La confiance de tout Tenerife", de: "Vertraut auf ganz Teneriffa", it: "La fiducia di tutta Tenerife" },
+
+  // ---- How it works + request form (see dictionary-process.ts) ----
+  ...processDict,
 };
 
 export function translate(locale: Locale, key: string): string {
